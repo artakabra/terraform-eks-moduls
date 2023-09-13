@@ -2,6 +2,14 @@ provider "aws" {
   region = var.aws_region
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_id
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks.cluster_id
+}
+
 # Create VPC and public subnets
 module "vpc" {
   source                  = "../modules/vpc"
@@ -36,23 +44,22 @@ module "security-groups" {
 
 
 
-# module "eks_cluster" {
-#   source          = "terraform-aws-modules/eks/aws"
-#   cluster_name    = "my-eks-cluster"
-#   cluster_version = "1.21"
-
-#   subnets = [
-#     module.vpc.public_subnet_az1,
-#     module.vpc.public_subnet_az2,
-#   ]
-
-#   worker_groups = {
-#     eks_nodes = {
-#       desired_capacity = 1
-#       max_capacity     = 2
-#       min_capacity     = 1
-
-#       instance_type = "t3.small"
-#     }
-#   }
-# }
+module "eks_cluster" {
+  source          = "terraform-aws-modules/eks/aws"
+  cluster_name    = "my-eks-cluster"
+  cluster_version = "12.2.0"
+  subnets = [
+    module.vpc.private_subnet_az_1,
+    module.vpc.private_subnet_az_2,
+  ]
+  cluster_create_timeout = "1h"
+  cluster_endpoint_private_access = true
+  vpc_id = module.vpc.vpc_id
+  worker_groups = [{
+    name                 = "worker-group-1"
+    instance_type        = "t2.small"
+    asg_desired_capacity = 1
+    additional_security_group_ids = [module.s]
+  },
+  ]
+}
