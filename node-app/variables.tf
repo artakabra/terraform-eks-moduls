@@ -44,9 +44,9 @@ variable "private_subnet_az_1_cidr" {
   description = "Subnet in AZ a"
   type        = map(string)
   default = {
-    "dev"   = "13.0.10.0/24",
-    "stage" = "14.0.10.0/24",
-    "prod"  = "15.0.10.0/24"
+    "dev"   = "10.0.100.0/24",
+    "stage" = "11.0.110.0/24",
+    "prod"  = "12.0.120.0/24"
   }
 }
 
@@ -54,9 +54,9 @@ variable "private_subnet_az_2_cidr" {
   description = "Subnet in AZ a"
   type        = map(string)
   default = {
-    "dev"   = "13.0.10.0/24",
-    "stage" = "14.0.10.0/24",
-    "prod"  = "15.0.10.0/24"
+    "dev"   = "10.0.130.0/24",
+    "stage" = "11.0.140.0/24",
+    "prod"  = "12.0.150.0/24"
   }
 }
 
