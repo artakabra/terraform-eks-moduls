@@ -1,7 +1,7 @@
-output "alb_security_group_id" {
-    value = aws_security_group.alb_security_group.id
+output "all_worker_mgmt_id" {
+    value = aws_security_group.all_worker_mgmt.id
 }
 
-output "inctance_security_group_id" {
-    value = aws_security_group.inctance_security_group.id
+output "worker_group_mgmt_one_id" {
+    value = aws_security_group.worker_group_mgmt_one.id
 }

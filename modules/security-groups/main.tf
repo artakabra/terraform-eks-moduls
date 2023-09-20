@@ -1,8 +1,8 @@
 
-# Creata Securety Group for the application load balancer
-resource "aws_security_group" "alb_security_group" {
-  name = "alb security group"
-  description = "enable http and node-app access on port 80/3000"
+# Creata Securety Group for the all worker mgmt
+resource "aws_security_group" "all_worker_mgmt" {
+  name_prefix = "all_worker_mgmt"
+  description = "enable http access on port 80"
   vpc_id = var.vpc_id
 
   ingress {
@@ -21,14 +21,14 @@ resource "aws_security_group" "alb_security_group" {
   }
 
   tags = {
-    "Name" = "${terraform.workspace}-alb_security_group"
+    "Name" = "${terraform.workspace}-lb_security_group"
   }
 }
 
 # Create security group for the container
-resource "aws_security_group" "inctance_security_group" {
-  name = "inctance security group"
-  description = "enable ssh access on port 22"
+resource "aws_security_group" "worker_group_mgmt_one" {
+  name_prefix = "worker_group_mgmt_one"
+  description = "enable ssh and node-app access on port 22/3000"
   vpc_id = var.vpc_id
 
   ingress {
@@ -58,3 +58,8 @@ resource "aws_security_group" "inctance_security_group" {
     "Name" = "${terraform.workspace}-inctance_security_group"
   }
 }
+
+
+# 10.0.0.0/8
+# 172.16.0.0./12
+# 192.168.0.0/16
